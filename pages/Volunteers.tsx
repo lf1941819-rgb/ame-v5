@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabaseClient';
+import { toLocalISODateTime } from '../lib/missionDay';
 import { Profile, Role, Status } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { Modal } from '../components/Modal';
@@ -47,7 +48,7 @@ export const Volunteers: React.FC<{ showToast: (m: string, t?: any) => void }> =
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
+        .update({ status: newStatus, updated_at: toLocalISODateTime(new Date()) })
         .eq('id', id);
 
       if (error) throw error;
@@ -64,7 +65,7 @@ export const Volunteers: React.FC<{ showToast: (m: string, t?: any) => void }> =
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ role: newRole, updated_at: new Date().toISOString() })
+        .update({ role: newRole, updated_at: toLocalISODateTime(new Date()) })
         .eq('id', id);
 
       if (error) throw error;
@@ -88,7 +89,7 @@ export const Volunteers: React.FC<{ showToast: (m: string, t?: any) => void }> =
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ full_name: newName, updated_at: new Date().toISOString() })
+        .update({ full_name: newName, updated_at: toLocalISODateTime(new Date()) })
         .eq('id', editingVolunteer.id);
 
       if (error) throw error;

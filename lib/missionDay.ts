@@ -85,3 +85,19 @@ export function toLocalISO(date: Date): string {
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
 }
+
+/**
+ * Formata uma data/hora para ISO local (yyyy-MM-ddTHH:mm:ss.sss) respeitando
+ * o fuso horário local. Não converte para UTC como toISOString() faria.
+ * Útil para timestamps que devem representar a hora local do usuário.
+ */
+export function toLocalISODateTime(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  const h = String(date.getHours()).padStart(2, '0');
+  const min = String(date.getMinutes()).padStart(2, '0');
+  const s = String(date.getSeconds()).padStart(2, '0');
+  const ms = String(date.getMilliseconds()).padStart(3, '0');
+  return `${y}-${m}-${d}T${h}:${min}:${s}.${ms}`;
+}

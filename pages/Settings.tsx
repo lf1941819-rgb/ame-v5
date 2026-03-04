@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
-import { toLocalISO } from '../lib/missionDay';
+import { toLocalISO, toLocalISODateTime } from '../lib/missionDay';
 import { useAuth } from '../context/AuthContext';
 import { clearOfflinePin, hasOfflinePin } from '../src/offline/offlinePin';
 import { MissionEvent } from '../types';
@@ -110,7 +110,7 @@ export const Settings: React.FC<{ showToast: (m: string, t?: any) => void }> = (
     setSaving(true);
     try {
       const dedupe = dedupeKeyFor('app_settings',[key]);
-      const res = await safeWrite({ op:'upsert', table:'app_settings', payload:{ key, value, updated_at: new Date().toISOString() }, options:{ onConflict:'key' }, dedupeKey: dedupe });
+      const res = await safeWrite({ op:'upsert', table:'app_settings', payload:{ key, value, updated_at: toLocalISODateTime(new Date()) }, options:{ onConflict:'key' }, dedupeKey: dedupe });
       if (res.queued) {
         setQueuedSettings(prev=>new Set(prev).add(key));
         showToast('Configuração enfileirada (offline)', 'info');
